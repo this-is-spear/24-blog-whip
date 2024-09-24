@@ -8,19 +8,19 @@ jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout repository
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: get commit message
+      - name: Get commit message
         id: get_commit
         run: |
           COMMIT_MESSAGE=$(git log -1 --pretty=%B)
           COMMIT_AUTHOR=$(git log -1 --pretty=format:'%an')
-          echo "::set-output name=commit_message::$COMMIT_MESSAGE"
-          echo "::set-output name=commit_author::$COMMIT_AUTHOR"
+          echo "commit_message=$COMMIT_MESSAGE" >> $GITHUB_OUTPUT
+          echo "commit_author=$COMMIT_AUTHOR" >> $GITHUB_OUTPUT
       
-      - name: send webhook to discord
+      - name: Send webhook to Discord
         run: |
           curl -X POST -H "Content-Type: application/json" \
-               -d "{\"content\": \"${{ steps.get_commit_info.outputs.commit_message }}\", \"sender\": \"${{ steps.get_commit_info.outputs.commit_author }}\"}" \
+               -d "{\"content\": \"${{ steps.get_commit.outputs.commit_message }}\", \"sender\": \"${{ steps.get_commit.outputs.commit_author }}\"}" \
                https://discord.com/api/webhooks/1288116701459775520/Sz7aGU2Wg-OxGG1hFNbbOsPqreo9KTPhlWyN82hkMqrdgJEfn79g7tJ9PGZSnL1S9UB1

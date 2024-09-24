@@ -21,6 +21,6 @@ jobs:
       
       - name: send webhook to discord
         run: |
-          curl -H "Content-Type: application/json" \
-               -d "{\"content\": \"새로운 게시물이 올라왔어요: ${{ steps.get_commit_info.outputs.commit_message }}\", \"sender\": \"${{ steps.get_commit_info.outputs.commit_author }}\"}" \
+          curl -X POST -H "Content-Type: application/json" \
+               -d "{\"content\": \"${{ steps.get_commit_info.outputs.commit_message }}\", \"sender\": \"${{ steps.get_commit_info.outputs.commit_author }}\"}" \
                https://discord.com/api/webhooks/your-webhook-url

@@ -1,0 +1,21 @@
+name: Notify Discord
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: get commit message
+        id: get_commit
+        run: |
+          COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+          echo "::set-output name=commit_message::$COMMIT_MESSAGE"
+      
+      - name: Send webhook to Discord
+        run: |
+          curl -H "Content-Type: application/json" \
+               -d "{\"content\": \"새로운 게시물이 올라왔어요!! ${{ steps.get_commit.outputs.commit_message }}\"}" \
+               https://discord.com/api/webhooks/1288116701459775520/Sz7aGU2Wg-OxGG1hFNbbOsPqreo9KTPhlWyN82hkMqrdgJEfn79g7tJ9PGZSnL1S9UB1/github

@@ -23,4 +23,4 @@ jobs:
         run: |
           curl -X POST -H "Content-Type: application/json" \
                -d "{\"content\": \"${{ steps.get_commit.outputs.commit_message }}\", \"username\": \"${{ steps.get_commit.outputs.commit_author }}\"}" \
-               {{ secrets.DISCORD_WEBHOOK_URL }}
+               ${{ secrets.DISCORD_WEBHOOK_URL }}
